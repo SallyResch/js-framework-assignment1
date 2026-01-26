@@ -1,7 +1,7 @@
 const { log } = require("console");
 const http = require("http");
 const url = require("url");
-
+const warframes = require("./data/warframes.js")
 const navigation = () => {
 	return (`<nav><a href="/">Home</a><a href="/warframes">Warframes</a><a href="/about">About</a></nav>`)
 }
@@ -32,15 +32,18 @@ http.createServer((req, res) => {
 		console.log(searchTerm);
 		res.end();
 	}
+
 	if (currentPath === "/warframes") {
 		res.write(navigation());
 		res.write(header("Warframes"))
 		res.write(footer("warframesfooter"));
+		console.log(warframes);
 		console.log(address);
 		console.log(currentPath);
 		console.log(searchTerm);
 		res.end();
 	}
+
 	if (currentPath === "/about") {
 		res.write(navigation());
 		res.write(header("About"))
