@@ -18,7 +18,7 @@ const warframes = [
 		description: "./content/text/volt.txt"
 	},
 	{
-		name: "Hilldrun",
+		name: "Hildrun",
 		element: "Magnetic",
 		tacticalAbility: "Shieldslam",
 		description: "./content/text/volt.txt"

@@ -1,13 +1,10 @@
 const http = require("http");
 const url = require("url");
-const warframes = require("./data/warframes.js")
+const fs = require("fs");
+const warframes = require("./data/warframes.js");
 
 const navigation = () => {
-  return (`<nav>
-    <a href="/">Home</a>
-    <a href="/warframes">Warframes</a>
-    <a href="/about">About</a>
-    </nav>`)
+  return (`<nav><a href="/">Home</a><a href="/warframes">Warframes</a><a href="/about">About</a></nav>`)
 }
 
 const header = (headerTitle) => {
@@ -22,11 +19,6 @@ http.createServer((req, res) => {
   let address = url.parse(req.url, true);
   const currentPath = address.pathname;
   const searchTerm = address.query;
-
-  console.log(address);
-  console.log(currentPath);
-  console.log(searchTerm);
-
   res.writeHead(200, "All is Okie Dokie", { "Content-type": "text/html" })
 
   if (currentPath === "/") {
@@ -73,16 +65,24 @@ http.createServer((req, res) => {
   }
 
   if (currentPath === "/pets") {
-
+    res.write(navigation());
+    res.write(header("Pets in Warframe"))
+    res.write(footer("petsfooter"));
+    res.end();
   }
 
   if (currentPath === "/about") {
     res.write(navigation());
     res.write(header("About"))
-    res.write(footer("aboutfooter"));
-    console.log(address);
-    //console.log(currentPath);
-    //console.log(searchTerm);
-    res.end();
+    fs.readFile("./content/about.html", (err, data) => {
+      if (err) {
+        res.write("ERROR");
+        res.end()
+        return
+      }
+      res.write(data);
+      res.write(footer("aboutfooter"));
+      res.end();
+    })
   }
 }).listen(3456, () => console.log("Listening on port 3456"))
