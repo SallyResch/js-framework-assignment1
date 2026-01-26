@@ -7,20 +7,22 @@ const warframes = [
 	},
 	{
 		name: "Ember",
-		element: "Electricity",
-		tacticalAbility: "Speed",
+		element: "Heat",
+		tacticalAbility: "AOE",
 		description: "./content/text/volt.txt"
 	},
 	{
 		name: "Nokko",
-		element: "Electricity",
-		tacticalAbility: "Speed",
+		element: "Earth",
+		tacticalAbility: "Mushrooms",
 		description: "./content/text/volt.txt"
 	},
 	{
 		name: "Hilldrun",
-		element: "Electricity",
-		tacticalAbility: "Speed",
+		element: "Magnetic",
+		tacticalAbility: "Shieldslam",
 		description: "./content/text/volt.txt"
 	}
 ]
+
+module.exports = warframes;
