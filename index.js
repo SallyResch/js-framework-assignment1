@@ -33,7 +33,7 @@ http.createServer((req, res) => {
     res.write(navigation());
     res.write(header("Warframes"))
     warframes.forEach(warframe => {
-      res.write(`<a href="/warframes?name=${warframe.name.toLowerCase()}">${warframe.name}</a>`)
+      res.write(`<a href="/warframes?name=${warframe.name.toLowerCase()}">${warframe.name}</a><br>`)
     })
 
     let warframe = null;
@@ -52,7 +52,7 @@ http.createServer((req, res) => {
         res.write(`<p>Name: ${warframe.name}</p>`)
         res.write(`<p>Element: ${warframe.element}</p>`)
         res.write(`<p>Tactical Ability: ${warframe.tacticalAbility}</p>`)
-        fs.readFile(warframe.description, (err, data) => {
+        fs.readFile(warframe.description, "utf8", (err, data) => {
           if (err) {
             console.error('Error reading file: ', err);
             res.write("<p>Error loading description</p>");
@@ -79,28 +79,25 @@ http.createServer((req, res) => {
   if (currentPath === "/pets") {
     res.write(navigation());
     res.write(header("Pets in Warframe"))
-
-    fs.readFile("./content/pets.html", (err, data) => {
+    fs.readFile("./content/pets.html", "utf8", (err, data) => {
       if (err) {
-        res.write("ERROR");
+        res.write("There was an error");
         res.end()
         return
       }
       res.write(data);
       pets.forEach(pet => {
-        res.write(`<a href="/pets?name=${pet.name.toLowerCase()}">${pet.name}</a>`)
+        res.write(`<a href="/pets?gender=${pet.gender.toLowerCase()}">${pet.gender}</a></br>`)
       })
       res.write(footer("petsfooter"));
       res.end();
     })
-
-
   }
 
   if (currentPath === "/about") {
     res.write(navigation());
     res.write(header("About"))
-    fs.readFile("./content/about.html", (err, data) => {
+    fs.readFile("./content/about.html", "utf8", (err, data) => {
       if (err) {
         res.write("ERROR");
         res.end()
