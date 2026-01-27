@@ -79,6 +79,7 @@ http.createServer((req, res) => {
   if (currentPath === "/pets") {
     res.write(navigation());
     res.write(header("Pets in Warframe"))
+
     fs.readFile("./content/pets.html", (err, data) => {
       if (err) {
         res.write("ERROR");
@@ -86,12 +87,13 @@ http.createServer((req, res) => {
         return
       }
       res.write(data);
+      pets.forEach(pet => {
+        res.write(`<a href="/pets?name=${pet.name.toLowerCase()}">${pet.name}</a>`)
+      })
       res.write(footer("petsfooter"));
       res.end();
     })
-    pets.forEach(pet => {
-      res.write(`<a href="/pets?name=${pet.name.toLowerCase()}">${pet.name}</a>`)
-    });
+
 
   }
 
