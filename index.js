@@ -2,6 +2,7 @@ const http = require("http");
 const url = require("url");
 const fs = require("fs");
 const warframes = require("./data/warframes.js");
+const pets = require("./data/pets.js");
 
 const navigation = () => {
   return (`<nav><a href="/">Home </a><a href="/warframes">Warframes </a><a href="/about">About </a><a href="/pets">Pets </a><a href="/mods">Mods </a></nav>`)
@@ -78,8 +79,20 @@ http.createServer((req, res) => {
   if (currentPath === "/pets") {
     res.write(navigation());
     res.write(header("Pets in Warframe"))
-    res.write(footer("petsfooter"));
-    res.end();
+    fs.readFile("./content/pets.html", (err, data) => {
+      if (err) {
+        res.write("ERROR");
+        res.end()
+        return
+      }
+      res.write(data);
+      res.write(footer("petsfooter"));
+      res.end();
+    })
+    pets.forEach(pet => {
+      res.write(`<a href="/pets?name=${pet.name.toLowerCase()}">${pet.name}</a>`)
+    });
+
   }
 
   if (currentPath === "/about") {
