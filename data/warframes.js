@@ -9,19 +9,19 @@ const warframes = [
 		name: "Ember",
 		element: "Heat",
 		tacticalAbility: "AOE",
-		description: "./content/text/volt.txt"
+		description: "./content/text/ember.txt"
 	},
 	{
 		name: "Nokko",
 		element: "Earth",
 		tacticalAbility: "Mushrooms",
-		description: "./content/text/volt.txt"
+		description: "./content/text/nokko.txt"
 	},
 	{
-		name: "Hildrun",
+		name: "Hildryn",
 		element: "Magnetic",
 		tacticalAbility: "Shieldslam",
-		description: "./content/text/volt.txt"
+		description: "./content/text/hildryn.txt"
 	}
 ]
 

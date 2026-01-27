@@ -4,7 +4,7 @@ const fs = require("fs");
 const warframes = require("./data/warframes.js");
 
 const navigation = () => {
-  return (`<nav><a href="/">Home</a><a href="/warframes">Warframes</a><a href="/about">About</a></nav>`)
+  return (`<nav><a href="/">Home </a><a href="/warframes">Warframes </a><a href="/about">About </a><a href="/pets">Pets </a><a href="/mods">Mods </a></nav>`)
 }
 
 const header = (headerTitle) => {
@@ -25,15 +25,15 @@ http.createServer((req, res) => {
     res.write(navigation());
     res.write(header("Home"))
     res.write(footer("homefooter"));
-    console.log(address);
-    //console.log(currentPath);
-    //console.log(searchTerm);
     res.end();
   }
 
   if (currentPath === "/warframes") {
     res.write(navigation());
     res.write(header("Warframes"))
+    warframes.forEach(warframe => {
+      res.write(`<a href="/warframes?name=${warframe.name.toLowerCase()}">${warframe.name}</a>`)
+    })
     let warframe = null;
     if (searchTerm.name) {
       warframe = warframes.find(v => v.name.toLowerCase() === searchTerm.name.toLowerCase());
@@ -42,19 +42,20 @@ http.createServer((req, res) => {
         res.write(`<p>Couldnt find Warframe: ${searchTerm.name}</p>`)
       } else {
         res.write(`<p>Name: ${warframe.name}</p>`)
-        res.write(`<p>Name: ${warframe.element}</p>`)
-        res.write(`<p>Name: ${warframe.tacticalAbility}</p>`)
-        res.write(`<p>Name: ${warframe.description}</p>`)
+        res.write(`<p>Element: ${warframe.element}</p>`)
+        res.write(`<p>Tactical Ability: ${warframe.tacticalAbility}</p>`)
+        fs.readFile(warframe.description, (err, data) => {
+          if (err) {
+            res.write("ERROR");
+            res.end()
+            return
+          }
+          res.write(data);
+          res.write(footer("warframesfooter"));
+          res.end();
+        })
       }
     }
-    warframes.forEach(warframe => {
-      res.write(`<a href="/warframes?name=${warframe.name.toLowerCase()}">${warframe.name}</a>`)
-    })
-    res.write(footer("warframesfooter"));
-    console.log(address);
-    //console.log(currentPath);
-    //console.log(searchTerm);
-    res.end();
   }
 
   if (currentPath === "/mods") {
