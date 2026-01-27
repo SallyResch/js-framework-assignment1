@@ -34,27 +34,37 @@ http.createServer((req, res) => {
     warframes.forEach(warframe => {
       res.write(`<a href="/warframes?name=${warframe.name.toLowerCase()}">${warframe.name}</a>`)
     })
+
     let warframe = null;
+
+
     if (searchTerm.name) {
-      warframe = warframes.find(v => v.name.toLowerCase() === searchTerm.name.toLowerCase());
+      warframe = warframes.find(
+        v => v.name.toLowerCase() === searchTerm.name.toLowerCase()
+      );
 
       if (!warframe) {
         res.write(`<p>Couldnt find Warframe: ${searchTerm.name}</p>`)
+        res.write(footer("warframesfooter"));
+        res.end();
       } else {
         res.write(`<p>Name: ${warframe.name}</p>`)
         res.write(`<p>Element: ${warframe.element}</p>`)
         res.write(`<p>Tactical Ability: ${warframe.tacticalAbility}</p>`)
         fs.readFile(warframe.description, (err, data) => {
           if (err) {
-            res.write("ERROR");
-            res.end()
-            return
+            console.error('Error reading file: ', err);
+            res.write("<p>Error loading description</p>");
+          } else {
+            res.write(`<p>${data}</p>`);
           }
-          res.write(data);
-          res.write(footer("warframesfooter"));
+          res.write(footer("warframesFooter"));
           res.end();
-        })
+        });
       }
+    } else {
+      res.write(footer("warframesfooter"));
+      res.end();
     }
   }
 
