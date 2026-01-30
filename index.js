@@ -25,6 +25,7 @@ http.createServer((req, res) => {
   if (currentPath === "/") {
     res.write(navigation());
     res.write(header("Home"))
+    res.write("<div>In lack of insperation for a theme, it became a warframes information page (its a game)</div>")
     res.write(footer("homefooter"));
     res.end();
   }
