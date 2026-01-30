@@ -3,6 +3,7 @@ const url = require("url");
 const fs = require("fs");
 const warframes = require("./data/warframes.js");
 const pets = require("./data/pets.js");
+const mods = require("./data/mods.js");
 
 const navigation = () => {
   return (`<nav><a href="/">Home </a><a href="/warframes">Warframes </a><a href="/about">About </a><a href="/pets">Pets </a><a href="/mods">Mods </a></nav>`)
@@ -72,10 +73,20 @@ http.createServer((req, res) => {
 
   if (currentPath === "/mods") {
     res.write(navigation());
-    res.write(header("Mods in Warframe"))
+    res.write(header("Mods in Warframe"));
+    mods.forEach(mod => {
+      res.write(`<a href="/mods?name=${mod.name.toLowerCase()}">${mod.name}</a><br>`)
+    })
+    let mod = null;
+
+    if (searchTerm.name || searchTerm.effect || searchTerm.rank || searchTerm.rarity) {
+
+    }
     res.write(footer("modsfooter"));
     res.end();
   }
+
+
 
   if (currentPath === "/pets") {
     res.write(navigation());
