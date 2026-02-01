@@ -10,8 +10,27 @@ There is a navigation to navigate between pages on every page.
 - http://localhost:3456/about : About route
 - http://localhost:3456/pets : Pets route
 - http://localhost:3456/mods : Mods route
-  /mods
-  /mods?rarity=epic
-  /mods?effect=Toxic
-  /mods?rank=1
-  /mods?rarity=neutral&rank=1
+
+On the Mods page, there is a filter section at the top of the page that allows you to narrow down which mods are displayed.
+
+How to use the filters
+
+Each dropdown represents a filter:
+
+Effect – filters by a specific mod effect
+
+Rarity – filters by how rare the mod is
+
+Rank – filters by the mod’s rank
+
+All filters are optional
+
+You can use one, multiple, or no filters at the same time
+
+When you click the Filter button:
+
+the page reloads
+
+the URL is updated with the selected filter values
+
+only mods that match all selected filters are shown

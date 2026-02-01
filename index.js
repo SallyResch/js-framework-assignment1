@@ -74,13 +74,79 @@ http.createServer((req, res) => {
   if (currentPath === "/mods") {
     res.write(navigation());
     res.write(header("Mods in Warframe"));
-    mods.forEach(mod => {
-      res.write(`<a href="/mods?name=${mod.name.toLowerCase()}">${mod.name}</a><br>`)
-    })
-    let mod = null;
+    res.write(`<form method="GET" action="/mods">
+      <label>Effect:
+        <select name="effect">
+          <option value="">All</option>
+          ${mods.map(m => `
+            <option value="${m.effect.toLowerCase()}">
+              ${m.effect}
+            </option>
+          `).join("")}
+        </select>
+      </label>
+      <label>
+        Rarity:
+        <select name="rarity">
+          <option value="">All</option>
+           ${mods.map(m => `
+            <option value="${m.rarity.toLowerCase()}">
+              ${m.rarity}
+            </option>
+          `).join("")}
+        </select>
+      </label>
+      <label>
+        Rank:
+        <select name="rank">
+          <option value="">All</option>
+            ${mods.map(m => `
+            <option value="${m.rank}">
+              ${m.rank}
+            </option>
+          `).join("")}
+        </select>
+      </label>
+      <button type="submit">Filter</button>
+    </form>`);
 
-    if (searchTerm.name || searchTerm.effect || searchTerm.rank || searchTerm.rarity) {
+    let filteredMods = mods;
+    if (searchTerm.name) {
+      filteredMods = filteredMods.filter(
+        m => m.name.toLowerCase() === searchTerm.name.toLowerCase()
+      );
+    }
 
+    if (searchTerm.effect) {
+      filteredMods = filteredMods.filter(
+        m => m.effect.toLowerCase().includes(searchTerm.effect.toLowerCase())
+      );
+    }
+
+    if (searchTerm.rank) {
+      filteredMods = filteredMods.filter(
+        m => m.rank === Number(searchTerm.rank)
+      );
+    }
+
+    if (searchTerm.rarity) {
+      filteredMods = filteredMods.filter(
+        m => m.rarity.toLowerCase() === searchTerm.rarity.toLowerCase()
+      );
+    }
+
+    if (filteredMods.length === 0) {
+      res.write("<p>No mods found</p>");
+    } else {
+      filteredMods.forEach(mod => {
+        res.write(`
+        <hr>
+        <p>Name: ${mod.name}</p>
+        <p>Effect: ${mod.effect}</p>
+        <p>Rank: ${mod.rank}</p>
+        <p>Rarity: ${mod.rarity}</p>
+      `);
+      });
     }
     res.write(footer("modsfooter"));
     res.end();
