@@ -6,7 +6,7 @@ const pets = require("./data/pets.js");
 const mods = require("./data/mods.js");
 
 const navigation = () => {
-  return (`<nav><a href="/">Home </a><a href="/warframes">Warframes </a><a href="/about">About </a><a href="/pets">Pets </a><a href="/mods">Mods </a></nav>`)
+  return (`<nav><a href="/">Home </a><a href="/warframes">Warframes </a><a href="/about">About </a><a href="/mods">Mods </a></nav>`)
 }
 
 const header = (headerTitle) => {
@@ -150,26 +150,6 @@ http.createServer((req, res) => {
     }
     res.write(footer("modsfooter"));
     res.end();
-  }
-
-
-
-  if (currentPath === "/pets") {
-    res.write(navigation());
-    res.write(header("Pets in Warframe"))
-    fs.readFile("./content/pets.html", "utf8", (err, data) => {
-      if (err) {
-        res.write("There was an error");
-        res.end()
-        return
-      }
-      res.write(data);
-      pets.forEach(pet => {
-        res.write(`<a href="/pets?gender=${pet.gender.toLowerCase()}">${pet.gender}</a></br>`)
-      })
-      res.write(footer("petsfooter"));
-      res.end();
-    })
   }
 
   if (currentPath === "/about") {
