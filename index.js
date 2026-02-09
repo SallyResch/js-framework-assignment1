@@ -2,7 +2,6 @@ const http = require("http");
 const url = require("url");
 const fs = require("fs");
 const warframes = require("./data/warframes.js");
-const pets = require("./data/pets.js");
 const mods = require("./data/mods.js");
 
 const navigation = () => {
